@@ -9,18 +9,18 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   Session,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiCookieAuth, } from '@nestjs/swagger';
-import {
-  Serialize,
-} from 'src/interceptors/serialize.interceptor';
+import { ApiCookieAuth } from '@nestjs/swagger';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dto/user.dto';
 import { AuthService } from './auth.service';
 import { User } from './entities/user.entity';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('user')
 @Serialize(UserDto)
@@ -48,6 +48,7 @@ export class UsersController {
     return user;
   }
 
+  @UseGuards(AuthGuard)
   @Get('/whoami')
   whoAmI(@CurrentUser() user: User) {
     return user;
