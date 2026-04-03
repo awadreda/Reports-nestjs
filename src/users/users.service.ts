@@ -16,7 +16,7 @@ export class UsersService {
     return this._repoUser.save(userReult);
   }
 
-  findAll() {
+  find() {
     return this._repoUser.find();
   }
 
